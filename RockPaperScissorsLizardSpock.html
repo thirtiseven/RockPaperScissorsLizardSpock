@@ -1,0 +1,234 @@
+<html>
+    <head>
+        <script src="jquery.js">
+        </script>
+        <style>
+            #state tbody tr td
+            {
+                width: 50px;
+                height: 50px;
+            }
+            .inputBtn
+            {
+                width: 150px;
+                height: 150px;
+                border: solid 1px black;
+                font-size: 20pt;
+                font-weight: bold;
+                text-align: center;
+                vertical-align: middle;
+                display: table-cell;
+                background: #eeeeee;
+            }
+            #result
+            {
+                font-size: 16pt;
+            }
+        </style>
+    </head>
+    <body>
+        <table>
+            <tbody>
+                <tr>
+                    <td>
+                        <div id="btnR" class="inputBtn"><img src="Rock.png" width="100" height="100"/>
+                            <br>石头
+                        </div>
+                    </td>
+                    <td>
+                        <div id="btnP" class="inputBtn"><img src="Paper.png" width="100" height="100"/>
+                            <br>布
+                        </div>                        
+                    </td>
+                    <td>
+                        <div id="btnS" class="inputBtn"><img src="Scissors.png" width="100" height="100"/>
+                            <br>剪刀
+                        </div> 
+                    </td>
+                    <td>
+                        <div id="btnL" class="inputBtn"><img src="Lizard.png" width="100" height="100"/>
+                            <br>蜥蜴
+                        </div> 
+                    </td>
+                    <td>
+                        <div id="btnK" class="inputBtn"><img src="Spock.png" width="100" height="100"/>
+                            <br>史波克
+                        </div> 
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p id="result">点击图标开始比赛!</p>
+<!--         <p id="guess"></p> -->
+        <p>状态转移矩阵:</p>
+        <table id="state">
+            <tbody>
+                <tr>
+                    <td id="t00"></td>
+                    <td id="t01"></td>
+                    <td id="t02"></td>
+                    <td id="t03"></td>
+                    <td id="t04"></td>
+                </tr>
+                <tr>
+                    <td id="t10"></td>
+                    <td id="t11"></td>
+                    <td id="t12"></td>
+                    <td id="t13"></td>
+                    <td id="t14"></td>
+                </tr>
+                <tr>
+                    <td id="t20"></td>
+                    <td id="t21"></td>
+                    <td id="t22"></td>
+                    <td id="t23"></td>
+                    <td id="t24"></td>
+                </tr>
+                <tr>
+                    <td id="t30"></td>
+                    <td id="t31"></td>
+                    <td id="t32"></td>
+                    <td id="t33"></td>
+                    <td id="t34"></td>
+                </tr>
+                <tr>
+                    <td id="t40"></td>
+                    <td id="t41"></td>
+                    <td id="t42"></td>
+                    <td id="t43"></td>
+                    <td id="t44"></td>
+                </tr>
+                </tbody>
+            </table>
+
+
+            <script>
+                $(function(){
+                    // RPSLK
+                    var count = [ [0, 0, 0, 0, 0], 
+                                  [0, 0, 0, 0, 0], 
+                                  [0, 0, 0, 0, 0],
+                                  [0, 0, 0, 0, 0],
+                                  [0, 0, 0, 0, 0]];
+
+                    var check = [ [0, 2, 1, 1, 2], 
+                                   [1, 0, 2, 2, 1], 
+                                   [2, 1, 0, 1, 2],
+                                   [2, 1, 2, 0, 1],
+                                   [1, 2, 1, 2, 0]];
+                    
+                   var guesswhat =  [[4, 1, 4, 0, 1], 
+                                      [1, 3, 2, 2, 1], 
+                                      [4, 2, 0, 0, 4],
+                                      [0, 2, 0, 2, 3],
+                                      [1, 1, 4, 3, 1]];
+
+                    $('#btnR').click(function(){
+                        run(0);
+                    });
+
+                    $('#btnP').click(function(){
+                        run(1);
+                    });
+
+                    $('#btnS').click(function(){
+                        run(2);
+                    });
+
+                    $('#btnL').click(function(){
+                        run(3);
+                    });
+
+                    $('#btnK').click(function(){
+                        run(4);
+                    });
+
+                    var guess = 0; 
+                    var last = 0;  
+                    var total = 0;
+                    var win = 0;
+//极大似然估计
+//                    function run(input) {
+//                        var resultText = '我出了' + (guess == 1 ? '布' : guess == 2 ? '剪刀' : guess == 3 ? '蜥蜴' : guess == 4 ? '史波克' : '石头') + '. 你出了' + (input == 1 ? '布' : input == 2 ? '剪刀' : input == 3 ? '蜥蜴' : input == 4 ? '史波克' : '石头') + '.<br>';
+//                        if (check[input][guess] == 1) {
+//                            resultText += '恭喜! 你赢了!';
+//                            win++;
+//                            total++;
+//                        } else if (check[input][guess] == 2) {
+//                            resultText += '哎呀! 你输了!';
+//                            total++;
+//                        } else {
+//                            resultText += '平局! 再来一次!';
+//                        }
+//                        resultText += '<br> 总计 ' + total + ' 场你已经赢了 ' + win + ' 场.<br>' + '当前胜率: ' + Number(win/total*100).toFixed(2) + '%.';
+//                        $('#result').html(resultText);
+//                        count[last][input]++;
+//                        last = input;
+//                        var m1 = 0;
+//                        for (var i = 1; i < 5; i++) {
+//                            if (count[last][i] > count[last][m1]) {
+//                                m1 = i;
+//                            }
+//                        }
+//                        var m2 = (m1+1)%5;
+//                        for (var i = 1; i < 5; i++) {
+//                            if (count[last][i] > count[last][m2] && i != m1) {
+//                                m2 = i;
+//                            }
+//                        }
+//                        //和不够智能的玩家玩时避免在特定情况下一直平局,3为玄学调参
+//                        if (count[last][m2]*3 < count[last][m1]) {
+//                            m2 = m1;
+//                        }
+//                        guess = guesswhat[m1][m2];
+//                        $('#guess').html('Next guess: ' + (guess == 1 ? '布' : guess == 2 ? '剪刀' : guess == 3 ? 'L蜥蜴' : guess == 4 ? 'Spock' : 'Rock'));
+//                        for (var i = 0; i < 5; i++) {
+//                            for (var j = 0; j < 5; j++) {
+//                                $('#t' + i.toString() + j.toString()).html(count[i][j]);
+//                            }
+//                        }
+//                    }
+                    function run(input) {
+                        var resultText = '我出了' + (guess == 1 ? '布' : guess == 2 ? '剪刀' : guess == 3 ? '蜥蜴' : guess == 4 ? '史波克' : '石头') + '. 你出了' + (input == 1 ? '布' : input == 2 ? '剪刀' : input == 3 ? '蜥蜴' : input == 4 ? '史波克' : '石头') + '.<br>';
+                        if (check[input][guess] == 1) {
+                            resultText += '恭喜! 你赢了!';
+                            win++;
+                            total++;
+                        } else if (check[input][guess] == 2) {
+                            resultText += '哎呀! 你输了!';
+                            total++;
+                        } else {
+                            resultText += '平局! 再来一次!';
+                        }
+                        resultText += '<br> 总计 ' + total + ' 场你已经赢了 ' + win + ' 场.<br>' + '当前胜率: ' + Number(win/total*100).toFixed(2) + '%.';
+                        $('#result').html(resultText);
+                        count[last][input]++;
+                        last = input;
+                        guess = 0;
+                        var rate = 0;
+                        var cur = 0;
+                        for (var i = 0; i < 5; i++) {
+                            for (var j = 0; j < 5; j++) {
+                                if (check[j][i] == 2) {
+                                    cur += count[last][j]*2;
+                                } else if (check[j][i] == 0) {
+                                    cur += count[last][j];
+                                }
+                            }		
+                            if (cur > rate) {
+                                guess = i;
+                                rate = cur;
+                            }
+                            cur = 0;		
+                        }
+                        $('#guess').html('Next guess: ' + (guess == 1 ? '布' : guess == 2 ? '剪刀' : guess == 3 ? '蜥蜴' : guess == 4 ? 'Spock' : 'Rock'));
+                        for (var i = 0; i < 5; i++) {
+                            for (var j = 0; j < 5; j++) {
+                                $('#t' + i.toString() + j.toString()).html(count[i][j]);
+                            }
+                        }
+                    }
+                });
+            </script>
+        </body>
+    </html>
