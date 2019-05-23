@@ -147,47 +147,47 @@
                     var last = 0;  
                     var total = 0;
                     var win = 0;
-//极大似然估计
-//                    function run(input) {
-//                        var resultText = '我出了' + (guess == 1 ? '布' : guess == 2 ? '剪刀' : guess == 3 ? '蜥蜴' : guess == 4 ? '史波克' : '石头') + '. 你出了' + (input == 1 ? '布' : input == 2 ? '剪刀' : input == 3 ? '蜥蜴' : input == 4 ? '史波克' : '石头') + '.<br>';
-//                        if (check[input][guess] == 1) {
-//                            resultText += '恭喜! 你赢了!';
-//                            win++;
-//                            total++;
-//                        } else if (check[input][guess] == 2) {
-//                            resultText += '哎呀! 你输了!';
-//                            total++;
-//                        } else {
-//                            resultText += '平局! 再来一次!';
-//                        }
-//                        resultText += '<br> 总计 ' + total + ' 场你已经赢了 ' + win + ' 场.<br>' + '当前胜率: ' + Number(win/total*100).toFixed(2) + '%.';
-//                        $('#result').html(resultText);
-//                        count[last][input]++;
-//                        last = input;
-//                        var m1 = 0;
-//                        for (var i = 1; i < 5; i++) {
-//                            if (count[last][i] > count[last][m1]) {
-//                                m1 = i;
-//                            }
-//                        }
-//                        var m2 = (m1+1)%5;
-//                        for (var i = 1; i < 5; i++) {
-//                            if (count[last][i] > count[last][m2] && i != m1) {
-//                                m2 = i;
-//                            }
-//                        }
-//                        //和不够智能的玩家玩时避免在特定情况下一直平局,3为玄学调参
-//                        if (count[last][m2]*3 < count[last][m1]) {
-//                            m2 = m1;
-//                        }
-//                        guess = guesswhat[m1][m2];
-//                        $('#guess').html('Next guess: ' + (guess == 1 ? '布' : guess == 2 ? '剪刀' : guess == 3 ? 'L蜥蜴' : guess == 4 ? 'Spock' : 'Rock'));
-//                        for (var i = 0; i < 5; i++) {
-//                            for (var j = 0; j < 5; j++) {
-//                                $('#t' + i.toString() + j.toString()).html(count[i][j]);
-//                            }
-//                        }
-//                    }
+                   //极大似然估计
+                   // function run(input) {
+                   //     var resultText = '我出了' + (guess == 1 ? '布' : guess == 2 ? '剪刀' : guess == 3 ? '蜥蜴' : guess == 4 ? '史波克' : '石头') + '. 你出了' + (input == 1 ? '布' : input == 2 ? '剪刀' : input == 3 ? '蜥蜴' : input == 4 ? '史波克' : '石头') + '.<br>';
+                   //     if (check[input][guess] == 1) {
+                   //         resultText += '恭喜! 你赢了!';
+                   //         win++;
+                   //         total++;
+                   //     } else if (check[input][guess] == 2) {
+                   //         resultText += '哎呀! 你输了!';
+                   //         total++;
+                   //     } else {
+                   //         resultText += '平局! 再来一次!';
+                   //     }
+                   //     resultText += '<br> 总计 ' + total + ' 场你已经赢了 ' + win + ' 场.<br>' + '当前胜率: ' + Number(win/total*100).toFixed(2) + '%.';
+                   //     $('#result').html(resultText);
+                   //     count[last][input]++;
+                   //     last = input;
+                   //     var m1 = 0;
+                   //     for (var i = 1; i < 5; i++) {
+                   //         if (count[last][i] > count[last][m1]) {
+                   //             m1 = i;
+                   //         }
+                   //     }
+                   //     var m2 = (m1+1)%5;
+                   //     for (var i = 1; i < 5; i++) {
+                   //         if (count[last][i] > count[last][m2] && i != m1) {
+                   //             m2 = i;
+                   //         }
+                   //     }
+                   //     //和不够智能的玩家玩时避免在特定情况下一直平局,3为玄学调参
+                   //     if (count[last][m2]*3 < count[last][m1]) {
+                   //         m2 = m1;
+                   //     }
+                   //     guess = guesswhat[m1][m2];
+                   //     $('#guess').html('Next guess: ' + (guess == 1 ? '布' : guess == 2 ? '剪刀' : guess == 3 ? 'L蜥蜴' : guess == 4 ? 'Spock' : 'Rock'));
+                   //     for (var i = 0; i < 5; i++) {
+                   //         for (var j = 0; j < 5; j++) {
+                   //             $('#t' + i.toString() + j.toString()).html(count[i][j]);
+                   //         }
+                   //     }
+                   // }
                     function run(input) {
                         var resultText = '我出了' + (guess == 1 ? '布' : guess == 2 ? '剪刀' : guess == 3 ? '蜥蜴' : guess == 4 ? '史波克' : '石头') + '. 你出了' + (input == 1 ? '布' : input == 2 ? '剪刀' : input == 3 ? '蜥蜴' : input == 4 ? '史波克' : '石头') + '.<br>';
                         if (check[input][guess] == 1) {
